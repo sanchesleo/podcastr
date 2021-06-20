@@ -12,6 +12,9 @@ import { convertDurationToTimeString } from '../utils/convertDurationToTimeStrin
 
 import styles from './home.module.scss';
 
+import {PlayerContext} from '../contexts/PlayerContext';
+import {useContext} from 'react';
+
 type Episode = {
   id: string;
   title: string;
@@ -33,10 +36,13 @@ type HomeProps = {
 export default function Home({latestEpisodes, allEpisodes}: HomeProps) {
   // console.log(props.episodes);
   //O valor será exibido no server node do next e não do browser.
+  const {play} = useContext(PlayerContext);
+
   return (
+    
     <div className={styles.homePage}>
       <section className={styles.latestEpisodes}>
-        <h2>Últimos Lançamentos</h2>
+        <h2>Últimos Lançamentos {play}</h2>
 
         <ul>
           {
@@ -54,7 +60,7 @@ export default function Home({latestEpisodes, allEpisodes}: HomeProps) {
                   <span>{episode.durationAsString}</span>
                 </div>
 
-                <button type="button">
+                <button type="button" onClick= {() => play(episode)}>
                   <img src="/play-green.svg" alt="Tocar episódio"/>
                 </button>
               </li>
@@ -107,7 +113,7 @@ export default function Home({latestEpisodes, allEpisodes}: HomeProps) {
                         {episode.durationAsString}
                       </td>
                       <td>
-                        <button type="button">
+                        <button type="button" onClick={() => play(episode)}>
                           <img src="/play-green.svg" alt="Tocar episódio"/>
                         </button>
                       </td>

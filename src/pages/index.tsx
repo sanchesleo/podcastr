@@ -36,17 +36,18 @@ type HomeProps = {
 export default function Home({latestEpisodes, allEpisodes}: HomeProps) {
   // console.log(props.episodes);
   //O valor será exibido no server node do next e não do browser.
-  const {play} = useContext(PlayerContext);
+  const {playList} = useContext(PlayerContext);
+  const episodeList = [...latestEpisodes, ...allEpisodes];
 
   return (
     
     <div className={styles.homePage}>
       <section className={styles.latestEpisodes}>
-        <h2>Últimos Lançamentos {play}</h2>
+        <h2>Últimos Lançamentos</h2>
 
         <ul>
           {
-          latestEpisodes.map(episode => {
+          latestEpisodes.map((episode, index) => {
             return(
               <li key={episode.id}>
                 <Image width={192} height={192} src={episode.thumbnail} alt={episode.title} objectFit="cover"/>
@@ -60,7 +61,7 @@ export default function Home({latestEpisodes, allEpisodes}: HomeProps) {
                   <span>{episode.durationAsString}</span>
                 </div>
 
-                <button type="button" onClick= {() => play(episode)}>
+                <button type="button" onClick= {() => playList(episodeList, index)}>
                   <img src="/play-green.svg" alt="Tocar episódio"/>
                 </button>
               </li>
@@ -86,7 +87,7 @@ export default function Home({latestEpisodes, allEpisodes}: HomeProps) {
             </thead>  
             <tbody>
               {
-                allEpisodes.map( episode => {
+                allEpisodes.map( (episode,index) => {
                   return(
                     <tr key={episode.id}>
                       <td style={{width:72}}>
@@ -113,7 +114,7 @@ export default function Home({latestEpisodes, allEpisodes}: HomeProps) {
                         {episode.durationAsString}
                       </td>
                       <td>
-                        <button type="button" onClick={() => play(episode)}>
+                        <button type="button" onClick={() => playList(episodeList,index + latestEpisodes.length)}>
                           <img src="/play-green.svg" alt="Tocar episódio"/>
                         </button>
                       </td>

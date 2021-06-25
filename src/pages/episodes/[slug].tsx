@@ -9,6 +9,8 @@ import styles from './episode.module.scss';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import Head from 'next/head';
+
 import { PlayerContext } from '../../contexts/PlayerContext';
 
 import {useContext} from 'react';
@@ -35,6 +37,9 @@ export default function Episode({ episode }: EpisodeProps) {
     const { play } = useContext(PlayerContext);
     return (
         <div className={styles.episode}>
+             <Head>
+                <title>{episode.title}</title>
+            </Head>
             <div className={styles.thumbnailContainer}>
                 <Link href={`/`}>
                 <button type="button">
